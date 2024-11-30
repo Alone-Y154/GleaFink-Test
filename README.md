@@ -7,6 +7,7 @@ This guide provides step-by-step instructions on how to set up, build, and run t
 
 ## **1. Prerequisites**
 Ensure you have the following installed on your system:
+- Node.js and npm (for running via Vite)
 - Docker
 - Docker Compose
 
@@ -32,12 +33,6 @@ Ensure all variables are prefixed with `VITE_` for Vite to recognize them.
 
 ---
 
-## **4. Build and Run Using Docker**
-Use the provided Docker setup to build and run the application.
-
-### **4.1 Development Environment**
-To start the application in development mode:
-```bash
 docker build -f dockerFile.dev -t gleafink-dev .
 docker run --env-file .env -p 3000:3000 gleafink-dev
 ```
@@ -55,15 +50,31 @@ To start the application in production mode:
 ---
 
 ## **5. Project Structure**
-```plaintext
-GLEAFINK-TEST/
-├── src/            # Source code for the application
-├── public/         # Static assets
-├── .env            # Environment variables file
-├── dockerFile.dev  # Dockerfile for development
-├── dockerFile      # Dockerfile for production
-├── docker-compose.yml # Docker Compose configuration
-└── README.md       # Project documentation
+```sh
+└── GleaFink-Test/
+    ├── README.md
+    ├── docker-compose.yml
+    ├── dockerFile.dev
+    ├── dockerfile
+    ├── eslint.config.js
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    ├── postcss.config.js
+    ├── public
+    │   ├── _redirects
+    │   └── vite.svg
+    ├── src
+    │   ├── App.jsx
+    │   ├── components
+    │   ├── index.css
+    │   ├── main.jsx
+    │   ├── miscellaneous
+    │   ├── pages
+    │   ├── reducers
+    │   └── store
+    ├── tailwind.config.js
+    └── vite.config.js
 ```
 
 ---
