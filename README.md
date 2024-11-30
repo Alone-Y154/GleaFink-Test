@@ -16,8 +16,8 @@ Ensure you have the following installed on your system:
 ## **2. Clone the Repository**
 Clone the application repository to your local machine:
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone https://github.com/Alone-Y154/GleaFink-Test.git
+cd GleaFink-Test
 ```
 
 ---
