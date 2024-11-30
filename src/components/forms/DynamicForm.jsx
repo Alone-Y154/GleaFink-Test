@@ -100,7 +100,11 @@ const DynamicForm = ({ isLogin = true }) => {
         : await dispatch(signupUser(formData)).unwrap();
 
       // Navigate to dashboard on successful authentication
-      navigate('/dashboard');
+      if(isLogin){
+        navigate('/dashboard');
+      }else{
+        navigate('/');
+      }
     } catch (error) {
       // Handle authentication errors
       setServerError(

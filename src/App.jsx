@@ -6,12 +6,15 @@ import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/common/Navbar";
 import NotFound from './pages/NotFound';
 import { useDispatch, useSelector } from 'react-redux';
-import { validateToken, setBypassMode } from './reducers/auth/auth'; // Ensure these actions are correctly imported
+import { /*validateToken,*/ setBypassMode } from './reducers/auth/auth';
 
 function App() {
   const dispatch = useDispatch();
   const { token, bypassMode } = useSelector((state) => state.auth);
 
+  useEffect(()=>{
+    console.log('Token in localStorage:', localStorage.getItem('token'));
+  },[])
   useEffect(() => {
     // Check bypass mode on app initialization
     const storedBypassMode = localStorage.getItem('bypassMode');
@@ -21,47 +24,27 @@ function App() {
     
     // Only validate token if a token exists and not in bypass mode
     if (token && !bypassMode) {
-      dispatch(validateToken());
+      // dispatch(validateToken());
     }
   }, [dispatch, token, bypassMode]);
 
   return (
     <>
-      <Navbar />
-      <Routes>
-        {/* Public Routes */}
-        <Route 
-          path="/" 
-          element={
-            <ProtectedRoute 
-              requireAuth={false} 
-              redirectTo="/dashboard" 
-            >
-              <DynamicForm isLogin={true} />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/signup" 
-          element={
-            <ProtectedRoute 
-              requireAuth={false} 
-              redirectTo="/signup" 
-            >
-              <DynamicForm isLogin={false} />
-            </ProtectedRoute>
-          } 
-        />
+    <Navbar />
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<DynamicForm isLogin={true} />} />
+      <Route path="/signup" element={<DynamicForm isLogin={false} />} />
 
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute redirectTo="/dashboard" />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+      {/* Protected Route for Dashboard */}
+      <Route element={<ProtectedRoute redirectTo="/" />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
 
-        {/* Optional: 404 Not Found Route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </>
+      {/* Optional: 404 Not Found Route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </>
   );
 }
 

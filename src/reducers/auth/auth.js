@@ -59,50 +59,50 @@ export const setBypassMode = createAsyncThunk(
     }
   );
 
-  export const validateToken = createAsyncThunk(
-    'auth/validateToken',
-    async (_, { rejectWithValue, getState }) => {
-      const state = getState();
-      const bypass = state.auth.bypassMode; // Retrieve bypassMode from state
+//   export const validateToken = createAsyncThunk(
+//     'auth/validateToken',
+//     async (_, { rejectWithValue, getState }) => {
+//       const state = getState();
+//       const bypass = state.auth.bypassMode; // Retrieve bypassMode from state
   
-      // If bypassMode is true, skip token validation
-      if (bypass) {
-        console.log('Bypass Mode: true, skipping token validation');
-        return { user: { name: 'Bypass User', role: 'bypass' }, token: null }; // Return mock user data for bypass mode
-      }
+//       // If bypassMode is true, skip token validation
+//       if (bypass) {
+//         console.log('Bypass Mode: true, skipping token validation');
+//         return { user: { name: 'Bypass User', role: 'bypass' }, token: null }; // Return mock user data for bypass mode
+//       }
   
-      try {
-        // Retrieve token from localStorage
-        const token = localStorage.getItem('token');
+//       try {
+//         // Retrieve token from localStorage
+//         const token = localStorage.getItem('token');
         
-        // If no token exists, reject
-        if (!token) {
-          return rejectWithValue('No token found');
-        }
+//         // If no token exists, reject
+//         if (!token) {
+//           return rejectWithValue('No token found');
+//         }
   
-        // Send token validation request
-        const response = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}/api/auth/validate-token`, 
-          { token }
-        );
+//         // Send token validation request
+//         const response = await axios.post(
+//           `${import.meta.env.VITE_BASE_URL}/api/auth/validate-token`, 
+//           { token }
+//         );
   
-        // If token is valid, return user data
-        if (response.data.authorized) {
-          return {
-            user: response.data.user,
-            token: token
-          };
-        } else {
-          // Token is invalid
-          return rejectWithValue('Invalid token');
-        }
-      } catch (error) {
-        // Clear token on validation failure
-        localStorage.removeItem('token');
-        return rejectWithValue(error.response?.data?.error || 'Token validation failed');
-      }
-    }
-  );
+//         // If token is valid, return user data
+//         if (response.data.authorized) {
+//           return {
+//             user: response.data.user,
+//             token: token
+//           };
+//         } else {
+//           // Token is invalid
+//           return rejectWithValue('Invalid token');
+//         }
+//       } catch (error) {
+//         // Clear token on validation failure
+//         localStorage.removeItem('token');
+//         return rejectWithValue(error.response?.data?.error || 'Token validation failed');
+//       }
+//     }
+//   );
   
 
 const authSlice = createSlice({
@@ -114,7 +114,7 @@ const authSlice = createSlice({
     error: null,
     isAuthenticated: localStorage.getItem('bypassMode') === 'true',
     bypassMode: localStorage.getItem('bypassMode') === 'true',
-    tokenValidationStatus: true
+    tokenValidationStatus: false
   },
   reducers: {
     logout: (state) => {
@@ -142,6 +142,8 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.bypassMode = false;
       state.tokenValidationStatus = true;
+
+      console.log('Token after login:', action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.isLoading = false;
@@ -172,31 +174,31 @@ const authSlice = createSlice({
     });
 
     // Token Validation cases
-    builder.addCase(validateToken.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-      state.tokenValidationStatus = false;
-    });
-    builder.addCase(validateToken.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
-      state.bypassMode = false;
-      state.tokenValidationStatus = true;
-    });
-    builder.addCase(validateToken.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      state.bypassMode = false;
-      state.tokenValidationStatus = false;
+    // builder.addCase(validateToken.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null;
+    //   state.tokenValidationStatus = false;
+    // });
+    // builder.addCase(validateToken.fulfilled, (state, action) => {
+    //   state.isLoading = false;
+    //   state.user = action.payload.user;
+    //   state.token = action.payload.token;
+    //   state.isAuthenticated = true;
+    //   state.bypassMode = false;
+    //   state.tokenValidationStatus = true;
+    // });
+    // builder.addCase(validateToken.rejected, (state, action) => {
+    //   state.isLoading = false;
+    //   state.error = action.payload;
+    //   state.user = null;
+    //   state.token = null;
+    //   state.isAuthenticated = false;
+    //   state.bypassMode = false;
+    //   state.tokenValidationStatus = false;
       
-      // Ensure token is removed
-      localStorage.removeItem('token');
-    });
+    //   // Ensure token is removed
+    // //   localStorage.removeItem('token');
+    // });
     
     // Bypass Login cases
     builder.addCase(setBypassMode.fulfilled, (state, action) => {
