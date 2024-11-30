@@ -33,11 +33,29 @@ Ensure all variables are prefixed with `VITE_` for Vite to recognize them.
 
 ---
 
-
-## **4. Build and Run Using Docker**
-Use the provided Docker setup to build and run the application.
+## **4. Build and Run Using Vite
+Use the provided Vite setup to build and run the application.
 
 ### **4.1 Development Environment**
+First, Install the dependencies.
+```bash
+npm install
+```
+
+Now run the Application.
+```bash
+npm run dev
+```
+
+You can build the application 
+```bash
+npm run build
+```
+
+## **5. Build and Run Using Docker**
+Use the provided Docker setup to build and run the application.
+
+### **5.1 Development Environment**
 To start the application in development mode:
 ```bash
 docker build -f dockerFile.dev -t gleafink-dev .
@@ -45,7 +63,7 @@ docker run --env-file .env -p 3000:3000 gleafink-dev
 ```
 The application will be available at [http://localhost:3000](http://localhost:3000).
 
-### **4.2 Production Environment**
+### **5.2 Production Environment**
 To start the application in production mode:
 1. Ensure you have the production Dockerfile and `docker-compose.yml` file.
 2. Run the following command:
@@ -56,7 +74,7 @@ To start the application in production mode:
 
 ---
 
-## **5. Project Structure**
+## **6. Project Structure**
 ```sh
 └── GleaFink-Test/
     ├── README.md
@@ -86,7 +104,7 @@ To start the application in production mode:
 
 ---
 
-## **6. Debugging Tips**
+## **7. Debugging Tips**
 - If environment variables are not working, ensure `.env` is correctly configured and included in `docker-compose.yml` or passed during `docker run`.
 - Rebuild the image after making changes to the `.env` file using:
   ```bash
@@ -96,7 +114,7 @@ To start the application in production mode:
 
 ---
 
-## **7. Stopping the Application**
+## **8. Stopping the Application**
 To stop the application:
 ```bash
 docker-compose down
@@ -104,7 +122,7 @@ docker-compose down
 
 ---
 
-## **8. Contact**
+## **9. Contact**
 For any issues or inquiries, feel free to contact me via mail - yashwanthkris153@gmail.com.
 
 ---
