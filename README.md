@@ -33,6 +33,13 @@ Ensure all variables are prefixed with `VITE_` for Vite to recognize them.
 
 ---
 
+
+## **4. Build and Run Using Docker**
+Use the provided Docker setup to build and run the application.
+
+### **4.1 Development Environment**
+To start the application in development mode:
+```bash
 docker build -f dockerFile.dev -t gleafink-dev .
 docker run --env-file .env -p 3000:3000 gleafink-dev
 ```
