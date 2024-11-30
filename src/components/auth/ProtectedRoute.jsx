@@ -1,19 +1,26 @@
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({ redirectTo }) => {
-  // Access the token and bypassMode from the Redux store
+const ProtectedRoute = ({ isProtected, redirectToIfAuthenticated, redirectToIfNotAuthenticated }) => {
   const token = useSelector((state) => state.auth.token);
-  const bypassMode = localStorage.getItem('bypassMode') === 'true';
-  console.log("Token:", token, "Bypass Mode:", bypassMode);
-  // Allow access if the user is authenticated or in bypass mode
-  if (token || bypassMode) {
-    return <Outlet />;
+  const bypassMode = useSelector((state) => state.auth.bypassMode);
+
+  if (isProtected) {
+    // Protected Route Logic: Redirect if not authenticated or not in bypass mode
+    if (!token && !bypassMode) {
+      return <Navigate to={redirectToIfNotAuthenticated} />;
+    }
+  } else {
+    // Public Route Logic: Redirect if authenticated or in bypass mode
+    if (token || bypassMode) {
+      return <Navigate to={redirectToIfAuthenticated} />;
+    }
   }
 
-  // Redirect to the login page if not authenticated
-  return <Navigate to={redirectTo} />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

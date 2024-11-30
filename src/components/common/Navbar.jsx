@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logout, setBypassMode } from '../../reducers/auth/auth';
 
 const Navbar = () => {
   const { tokenValidationStatus, bypassMode } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -13,6 +14,7 @@ const Navbar = () => {
 
   const handleBypass = () => {
     dispatch(setBypassMode());
+    navigate('/dashboard');
   };
 
   return (

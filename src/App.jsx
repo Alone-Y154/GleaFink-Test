@@ -33,13 +33,29 @@ function App() {
     <Navbar />
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<DynamicForm isLogin={true} />} />
-      <Route path="/signup" element={<DynamicForm isLogin={false} />} />
+      <Route
+          element={
+            <ProtectedRoute
+              isProtected={false}
+              redirectToIfAuthenticated="/dashboard"
+            />
+          }
+        >
+          <Route path="/" element={<DynamicForm isLogin={true} />} />
+          <Route path="/signup" element={<DynamicForm isLogin={false} />} />
+        </Route>
 
       {/* Protected Route for Dashboard */}
-      <Route element={<ProtectedRoute redirectTo="/" />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Route>
+      <Route
+          element={
+            <ProtectedRoute
+              isProtected={true}
+              redirectToIfNotAuthenticated="/"
+            />
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
 
       {/* Optional: 404 Not Found Route */}
       <Route path="*" element={<NotFound />} />
