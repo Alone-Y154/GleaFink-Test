@@ -25,7 +25,7 @@ cd <repository-folder>
 Create a `.env` file in the project root directory. Add the following variable:
 
 ```env
-VITE_BASE_URL=https://talentlabs-test-api.onrender.com
+VITE_BASE_URL="YOUR BACKEND URL"
 ```
 
 Ensure all variables are prefixed with `VITE_` for Vite to recognize them.
